@@ -16,12 +16,24 @@ declare global {
   }
 
   // API
+  type LoginUserType = {
+    password: string;
+    email: string;
+  };
+
   type CreateUserType = {
     username: string;
-    email: string;
-    password: string;
     confirmPassword: string;
-  };
+  } & LoginUserType;
+
+  type UserType = {
+    _id: string;
+    username: string;
+    email: string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    __v: number;
+  } & mongoose.Document;
 
   // components
   //- forms
