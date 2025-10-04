@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const AUTH_PAGES = ["/login", "/signup", "/verify"];
+const AUTH_PAGES = ["/login", "/signup", "/verify", "/"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -20,9 +20,9 @@ export async function middleware(req: NextRequest) {
   const isAuthenticated = Boolean(tokenCookie);
   const isAuthPage = AUTH_PAGES.includes(pathname);
 
-  // Redirect to home page if user is authenticated and navigates to any auth page
+  // Redirect to user page if user is authenticated and navigates to any auth page
   if (isAuthenticated && isAuthPage) {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/user", req.url));
   }
 
   // Redirect to the login page is user is unauthenticated and navigates to any page other than the auth pages

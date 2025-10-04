@@ -58,6 +58,14 @@ declare global {
     readOnly?: boolean;
   } & Omit<InputProps, "name">;
 
+  //-- UI
+  type MenuProps = {
+    name: string;
+    path: string;
+    icon: React.ReactElement;
+    isActive: boolean;
+  };
+
   // Errors
   type ErrorType = {
     data: {
