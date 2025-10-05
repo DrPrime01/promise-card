@@ -2,23 +2,26 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const ItemSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+const ItemSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-  isPromised: {
-    type: Boolean,
-    default: false,
-  },
+    isPromised: {
+      type: Boolean,
+      default: false,
+    },
 
-  promisedBy: {
-    type: String,
-    trim: true,
+    promisedBy: {
+      type: String,
+      trim: true,
+    },
   },
-});
+  { timestamps: true }
+);
 
 const ListSchema = new Schema(
   {

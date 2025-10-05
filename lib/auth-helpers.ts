@@ -35,3 +35,39 @@ export function createAuthResponse(
 
   return response;
 }
+
+export function protectRoute(req: Request) {
+  const cookieHeader = req.headers.get("cookie");
+  if (!cookieHeader) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "User is unauthenticated",
+      },
+      { status: 401 }
+    );
+  }
+
+  const token = cookieHeader
+    .split(";")
+    .find((c) => c.trim().startsWith("token="))
+    ?.split("=")[1];
+
+  if (!token) {
+    return NextResponse.json(
+      { success: false, message: "User is unauthenticated" },
+      { status: 401 }
+    );
+  }
+
+  const decoded = jwt.verify(token, JWT_SECRET);
+
+  if (typeof decoded === "string" || !decoded.id) {
+    return NextResponse.json(
+      { success: false, message: "Invalid token" },
+      { status: 401 }
+    );
+  }
+
+  return decoded.id;
+}
