@@ -27,8 +27,9 @@ const formSchema = z.object({
 
 export function NewCardForm({
   className,
+  close,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & { close: () => void }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,7 +43,7 @@ export function NewCardForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/lists`, {
+      const res = await fetch(`/api/list`, {
         method: "POST",
         body: JSON.stringify(values),
       });
@@ -51,6 +52,7 @@ export function NewCardForm({
       toast.success(data.message);
       form.reset();
       router.refresh();
+      close();
     } catch (error) {
       handleError(error);
       setIsLoading(false);

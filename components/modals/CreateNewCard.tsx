@@ -25,7 +25,7 @@ export default function CreateNewCard({
             Enter the title and occasion for your new card.
           </DialogDescription>
         </DialogHeader>
-        <NewCardForm />
+        <NewCardForm close={close} />
       </DialogContent>
     </Dialog>
   );
