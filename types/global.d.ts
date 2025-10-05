@@ -58,6 +58,18 @@ declare global {
     readOnly?: boolean;
   } & Omit<InputProps, "name">;
 
+  type ValidatedCreatableSelectProps<
+    TFieldValues extends FieldValues = FieldValues
+  > = {
+    control: Control<TFieldValues>;
+    name: Path<TFieldValues>;
+    label?: string;
+    rules?: RegisterOptions<TFieldValues, Path<TFieldValues>>;
+    placeholder?: string;
+    multiple?: boolean;
+    options?: { label: string; value: string }[];
+  };
+
   //-- UI
   type MenuProps = {
     name: string;

@@ -44,7 +44,7 @@ const BaseInput = forwardRef(
             onChange={onChange}
             onBlur={onBlur}
             readOnly={readOnly}
-            className="read-only:bg-[#F8F8F8] outline-none py-2 focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 border-none text-sm placeholder:text-[#00051D74] text-[#00051D] flex-1"
+            className="read-only:bg-[#F8F8F8] outline-none py-2 focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 border-none text-sm flex-1"
           />
           {type === "password" && (
             <button

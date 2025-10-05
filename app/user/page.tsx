@@ -1,8 +1,12 @@
+"use client";
 import UserDashboardLayout from "@/components/layouts/DashboardLayout/UserDashboardLayout";
+import CreateNewCard from "@/components/modals/CreateNewCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 
-export default function page() {
+export default function User() {
+  const [openCardModal, setOpenCardModal] = useState(false);
   return (
     <UserDashboardLayout>
       <div className="flex flex-col h-full">
@@ -19,7 +23,7 @@ export default function page() {
           <Button
             variant="default"
             type="button"
-            // onClick={() => setOpenCardDialog(true)}
+            onClick={() => setOpenCardModal(true)}
             className="rounded-[100px] h-11 cursor-pointer p-3 text-white text-sm font-medium leading-[145%]"
           >
             <Plus size={20} />
@@ -28,6 +32,10 @@ export default function page() {
         </div>
         <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5"></div>
       </div>
+      <CreateNewCard
+        open={openCardModal}
+        close={() => setOpenCardModal(false)}
+      />
     </UserDashboardLayout>
   );
 }

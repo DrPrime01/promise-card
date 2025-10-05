@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const AUTH_PAGES = ["/login", "/signup", "/verify", "/"];
+const AUTH_PAGES = ["/login", "/signup", "/verify"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -12,7 +12,8 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/_next") ||
     pathname === "/favicon.ico" ||
     pathname.startsWith("/images") ||
-    pathname.startsWith("/icons")
+    pathname.startsWith("/icons") ||
+    pathname === "/"
   ) {
     return NextResponse.next();
   }
