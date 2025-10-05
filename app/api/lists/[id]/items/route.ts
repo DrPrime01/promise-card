@@ -1,13 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { List } from "@/models/listSchema";
 import { protectRoute } from "@/lib/auth-helpers";
 import { handleAuthError } from "@/lib/error";
+import { connectToDb } from "@/db";
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectToDb();
+
     const userId = protectRoute(req);
 
     const { id: listId } = await params;
@@ -43,6 +46,6 @@ export async function POST(
       { status: 200 }
     );
   } catch (error) {
-    handleAuthError(error);
+    return handleAuthError(error);
   }
 }

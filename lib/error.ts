@@ -17,6 +17,14 @@ export const handleError = (err: unknown) => {
 
 export function handleAuthError(error: unknown) {
   if (error instanceof Error) {
+    // Handle specific errors we throw from our helpers
+    if (error.message.startsWith("401 Unauthorized")) {
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: 401 }
+      );
+    }
+
     // Handle the duplicate key error from Mongoose
     if (error.message.includes("E11000 duplicate key error")) {
       return NextResponse.json(

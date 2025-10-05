@@ -12,6 +12,6 @@ export async function POST(req: Request) {
 
     return createAuthResponse(newUser, "User created successfully");
   } catch (error) {
-    handleAuthError(error);
+    return handleAuthError(error);
   }
 }

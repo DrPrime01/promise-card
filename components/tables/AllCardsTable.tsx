@@ -1,15 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ChevronRight } from "lucide-react";
+
 import CustomTable from ".";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-export default function RecentCardsTable({
+export default function AllCardsTable({
   lists,
-  linkToCards = "/user/promise-cards",
 }: {
   lists: { title: string; occasion: string; _id: string }[];
-  linkToCards?: string;
 }) {
   const tableBody = lists?.map((list, index) => ({
     title: list.title,
@@ -28,13 +26,7 @@ export default function RecentCardsTable({
       <CardHeader>
         <CardTitle className="text-lg font-medium">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold">Recent Cards</h2>
-            <Link
-              href={linkToCards}
-              className="text-sm font-medium leading-[145%] shrink-0 flex items-center"
-            >
-              View all <ChevronRight className="ml-1 size-4" />
-            </Link>
+            <h2 className="text-lg font-semibold">All Your Cards</h2>
           </div>
         </CardTitle>
       </CardHeader>

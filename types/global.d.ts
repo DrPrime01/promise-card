@@ -78,6 +78,15 @@ declare global {
     isActive: boolean;
   };
 
+  type TableBodyProps = {
+    [key: string]: string | number | JSX.Element;
+  };
+
+  type TableHeadProps = {
+    id: string;
+    label: string;
+  };
+
   // Errors
   type ErrorType = {
     data: {

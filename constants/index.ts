@@ -22,3 +22,5 @@ export const DEFAULT_OCCASSION_OPTIONS = [
     value: "other",
   },
 ];
+
+export const API_URL = `${process.env.NEXT_PUBLIC_APP_URL!}/api`;

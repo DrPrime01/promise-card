@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 import { ONE_WEEK } from "@/constants";
@@ -36,37 +36,17 @@ export function createAuthResponse(
   return response;
 }
 
-export function protectRoute(req: Request) {
-  const cookieHeader = req.headers.get("cookie");
-  if (!cookieHeader) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "User is unauthenticated",
-      },
-      { status: 401 }
-    );
-  }
-
-  const token = cookieHeader
-    .split(";")
-    .find((c) => c.trim().startsWith("token="))
-    ?.split("=")[1];
+export function protectRoute(req: NextRequest) {
+  const token = req.cookies.get("token")?.value;
 
   if (!token) {
-    return NextResponse.json(
-      { success: false, message: "User is unauthenticated" },
-      { status: 401 }
-    );
+    throw new Error("401 Unauthorized: Token missing");
   }
 
-  const decoded = jwt.verify(token, JWT_SECRET);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
   if (typeof decoded === "string" || !decoded.id) {
-    return NextResponse.json(
-      { success: false, message: "Invalid token" },
-      { status: 401 }
-    );
+    throw new Error("401 Unauthorized: Invalid token payload");
   }
 
   return decoded.id;

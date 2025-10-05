@@ -1,12 +1,12 @@
-"use client";
+import { getUserLists } from "@/actions/user/list";
 import UserDashboardLayout from "@/components/layouts/DashboardLayout/UserDashboardLayout";
-import CreateNewCard from "@/components/modals/CreateNewCard";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+import RecentCardsTable from "@/components/tables/RecentCardsTable";
+import CreateNewCardInitiator from "@/components/user/CreateNewCardInitiator";
+import StatsCard from "@/components/user/StatsCard";
 
-export default function User() {
-  const [openCardModal, setOpenCardModal] = useState(false);
+export default async function page() {
+  const data = await getUserLists();
+
   return (
     <UserDashboardLayout>
       <div className="flex flex-col h-full">
@@ -19,23 +19,19 @@ export default function User() {
               Here’s a quick overview of your occasions and cards.
             </p>
           </div>
-
-          <Button
-            variant="default"
-            type="button"
-            onClick={() => setOpenCardModal(true)}
-            className="rounded-[100px] h-11 cursor-pointer p-3 text-white text-sm font-medium leading-[145%]"
-          >
-            <Plus size={20} />
-            Create Promise Card
-          </Button>
+          <CreateNewCardInitiator />
         </div>
-        <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5"></div>
+        <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <StatsCard value={data?.lists?.length} label="Total Cards" />
+            <StatsCard value="80" label="Promises Fulfilled" />
+            <StatsCard value="40" label="Promises Awaiting" />
+          </div>
+          <div>
+            <RecentCardsTable lists={data?.lists} />
+          </div>
+        </div>
       </div>
-      <CreateNewCard
-        open={openCardModal}
-        close={() => setOpenCardModal(false)}
-      />
     </UserDashboardLayout>
   );
 }

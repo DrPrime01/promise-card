@@ -1,8 +1,12 @@
+import { getUserLists } from "@/actions/user/list";
 import UserDashboardLayout from "@/components/layouts/DashboardLayout/UserDashboardLayout";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import AllCardsTable from "@/components/tables/AllCardsTable";
+import CreateNewCardInitiator from "@/components/user/CreateNewCardInitiator";
+import StatsCard from "@/components/user/StatsCard";
 
-export default function page() {
+export default async function page() {
+  const data = await getUserLists();
+
   return (
     <UserDashboardLayout>
       <div className="flex flex-col h-full">
@@ -12,21 +16,21 @@ export default function page() {
               Your Promise Cards
             </h3>
             <p className="text-[#475367] text-base leading-[150%]">
-              Here’s a quick overview of your promises.
+              Here’s a quick overview of your cards.
             </p>
           </div>
-
-          <Button
-            variant="default"
-            type="button"
-            // onClick={() => setOpenCardDialog(true)}
-            className="rounded-[100px] h-11 cursor-pointer p-3 text-white text-sm font-medium leading-[145%]"
-          >
-            <Plus size={20} />
-            Create Promise Card
-          </Button>
+          <CreateNewCardInitiator />
         </div>
-        <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5"></div>
+        <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <StatsCard value="120" label="Promises in Total" />
+            <StatsCard value="80" label="Promises Fulfilled" />
+            <StatsCard value="40" label="Promises Awaiting" />
+          </div>
+          <div>
+            <AllCardsTable lists={data.lists} />
+          </div>
+        </div>
       </div>
     </UserDashboardLayout>
   );

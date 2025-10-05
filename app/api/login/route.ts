@@ -21,6 +21,6 @@ export async function POST(req: Request) {
 
     return createAuthResponse(user, "Login successful");
   } catch (error) {
-    handleAuthError(error);
+    return handleAuthError(error);
   }
 }
