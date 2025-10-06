@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { handleError } from "@/lib/error";
+import { toast } from "sonner";
+import BaseInput from "@/components/form-fields/base/input-field";
+import { Spinner } from "@/components/ui/spinner";
 
 type Item = {
   _id: string;
@@ -17,14 +21,38 @@ type Item = {
 interface PromiseItemRowProps {
   item: Item;
   index: number;
+  shareableId: string;
 }
 
-export default function PromiseItemRow({ item, index }: PromiseItemRowProps) {
+export default function PromiseItemRow({
+  item,
+  index,
+  shareableId,
+}: PromiseItemRowProps) {
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [giverName, setGiverName] = useState("");
 
-  const handlePromise = () => {
-    alert(`Thank you, ${giverName}! You've promised to give "${item.name}".`);
+  const handlePromise = async () => {
+    setIsLoading(true);
+    try {
+      const payload = { isPromised: isChecked, promisedBy: giverName };
+
+      const res = await fetch(`/api/lists/${shareableId}/items/${item?._id}`, {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      setIsLoading(false);
+      toast.success(data.message);
+      router.refresh();
+      setGiverName("");
+    } catch (error) {
+      handleError(error);
+      setIsLoading(false);
+    }
   };
 
   const isAlreadyPromised = item.isPromised;
@@ -54,7 +82,8 @@ export default function PromiseItemRow({ item, index }: PromiseItemRowProps) {
             {item.promisedBy}
           </span>
         ) : (
-          <Input
+          <BaseInput
+            name="name"
             type="text"
             placeholder="Your name..."
             disabled={!isChecked}
@@ -65,8 +94,14 @@ export default function PromiseItemRow({ item, index }: PromiseItemRowProps) {
       </TableCell>
       <TableCell className="text-right">
         {isChecked && !isAlreadyPromised && (
-          <Button onClick={handlePromise} disabled={!giverName} size="sm">
-            Promise
+          <Button
+            type="button"
+            onClick={handlePromise}
+            disabled={!giverName || isLoading}
+            size="sm"
+            className="cursor-pointer"
+          >
+            {isLoading ? <Spinner /> : "Promise"}
           </Button>
         )}
       </TableCell>

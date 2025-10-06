@@ -27,3 +27,13 @@ export async function authenticatedFetch(
 
   return res.json();
 }
+
+export async function unauthenticatedFetch(path: string) {
+  const res = await fetch(`${API_URL}${path}`);
+
+  if (!res.ok) {
+    throw new Error(`API call failed with status: ${res.status}`);
+  }
+
+  return res.json();
+}

@@ -54,9 +54,3 @@ export async function POST(
     return handleApiError(error);
   }
 }
-
-export async function PATCH(req: NextRequest) {
-  try {
-    await connectToDb();
-  } catch (error) {}
-}

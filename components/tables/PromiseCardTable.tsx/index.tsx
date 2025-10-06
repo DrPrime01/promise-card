@@ -16,9 +16,13 @@ type Item = {
 
 interface PromiseCardTableProps {
   items: Item[];
+  shareableId: string;
 }
 
-export function PromiseCardTable({ items }: PromiseCardTableProps) {
+export function PromiseCardTable({
+  items,
+  shareableId,
+}: PromiseCardTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -32,7 +36,12 @@ export function PromiseCardTable({ items }: PromiseCardTableProps) {
       </TableHeader>
       <TableBody>
         {items.map((item, index) => (
-          <PromiseItemRow key={item._id} item={item} index={index} />
+          <PromiseItemRow
+            key={item._id}
+            item={item}
+            index={index}
+            shareableId={shareableId}
+          />
         ))}
       </TableBody>
     </Table>

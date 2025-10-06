@@ -18,11 +18,18 @@ type ListType = {
   }[];
 };
 
-export default function PromiseCard({ title, occasion, items }: ListType) {
+export default function PromiseCard({
+  title,
+  occasion,
+  items,
+  shareableId,
+}: ListType & { shareableId: string }) {
   return (
     <Card className="w-full max-w-3xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-4xl font-bold">{title}</CardTitle>
+        <CardTitle className="text-4xl font-bold">
+          {title} Promise Card
+        </CardTitle>
         <CardDescription className="text-lg pt-2">
           For {occasion}
         </CardDescription>
@@ -32,7 +39,7 @@ export default function PromiseCard({ title, occasion, items }: ListType) {
           See something you&apos;d like to give? Tick the box, enter your name,
           and make a promise!
         </p>
-        <PromiseCardTable items={items} />
+        <PromiseCardTable shareableId={shareableId} items={items} />
       </CardContent>
     </Card>
   );
