@@ -40,7 +40,7 @@ const formSchema = z
       .string()
       .min(8, { message: "Minimum password length is 8" })
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/,
         {
           message:
             "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
@@ -142,7 +142,7 @@ export function SignupForm({
                     className="disabled:opacity-50"
                   >
                     <span>Create Account</span>
-                    <Spinner />
+                    {isLoading && <Spinner />}
                   </Button>
                 </Field>
                 <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
