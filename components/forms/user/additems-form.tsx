@@ -13,7 +13,7 @@ import { handleError } from "@/lib/error";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import ValidatedCreatableSelect from "@/components/form-fields/validated/validated-creatable-select";
-import { DEFAULT_OCCASSION_OPTIONS } from "@/constants";
+import { DEFAULT_GIFT_OPTIONS } from "@/constants";
 
 const formSchema = z.object({
   items: z.array(
@@ -69,7 +69,7 @@ export function AddItemsForm({
                 placeholder="Select or type the items you want"
                 control={form.control}
                 multiple
-                options={DEFAULT_OCCASSION_OPTIONS}
+                options={DEFAULT_GIFT_OPTIONS}
               />
             </Field>
             <Field className="grid grid-cols-2 gap-4">
