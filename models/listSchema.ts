@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { customAlphabet } from "nanoid";
 
 const { Schema } = mongoose;
 
@@ -42,9 +43,28 @@ const ListSchema = new Schema(
       trim: true,
     },
 
+    shareableId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    active: {
+      type: Boolean,
+      default: true,
+    },
+
     items: [ItemSchema],
   },
   { timestamps: true }
 );
+
+ListSchema.pre("validate", function (next) {
+  if (this.isNew) {
+    const nanoid = customAlphabet(this._id.toString(), 8);
+    this.shareableId = nanoid();
+  }
+  next();
+});
 
 export const List = mongoose.models?.List || mongoose.model("List", ListSchema);

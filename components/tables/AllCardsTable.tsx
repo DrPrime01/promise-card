@@ -3,20 +3,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import CustomTable from ".";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import EmptyUI from "../empty";
+import CreateNewCardInitiator from "../user/CreateNewCardInitiator";
+import { FileX2 } from "lucide-react";
+import { Badge } from "../ui/badge";
+import ShareLinkInitiator from "../user/ShareLinkInitiator";
 
 export default function AllCardsTable({
   lists,
 }: {
-  lists: { title: string; occasion: string; _id: string }[];
+  lists: {
+    title: string;
+    occasion: string;
+    _id: string;
+    active: boolean;
+    shareableId: string;
+  }[];
 }) {
   const tableBody = lists?.map((list, index) => ({
     title: list.title,
     occasion: list.occasion,
-    link: "",
-    status: "",
+    link: <ShareLinkInitiator linkId={list.shareableId} />,
+    status: list.active ? (
+      <Badge className="bg-blue-500 text-white dark:bg-blue-600">
+        <span className="bg-green-400 size-2 inline-block rounded-full" />
+        Active
+      </Badge>
+    ) : (
+      <Badge variant="secondary" className="bg-gray-300">
+        Inactive
+      </Badge>
+    ),
     action: (
       <Button variant="outline" asChild>
-        <Link href={`/list/${list._id}`}>View List</Link>
+        <Link href={`/user/promise-cards/${list._id}`}>View List</Link>
       </Button>
     ),
     id: index + 1,
@@ -31,7 +51,16 @@ export default function AllCardsTable({
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0">
-        <CustomTable tableHead={tableHead} tableBody={tableBody} />
+        {tableBody.length > 0 ? (
+          <CustomTable tableHead={tableHead} tableBody={tableBody} />
+        ) : (
+          <EmptyUI
+            title="No cards created yet"
+            desc="You have not created any card. Create one to begin to get promises"
+            icon={<FileX2 />}
+            actions={<CreateNewCardInitiator />}
+          />
+        )}
       </CardContent>
     </Card>
   );

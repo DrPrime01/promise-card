@@ -19,7 +19,7 @@ export default async function page() {
               Here’s a quick overview of your cards.
             </p>
           </div>
-          <CreateNewCardInitiator />
+          {data?.lists?.length > 0 && <CreateNewCardInitiator />}
         </div>
         <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -28,7 +28,7 @@ export default async function page() {
             <StatsCard value="40" label="Promises Awaiting" />
           </div>
           <div>
-            <AllCardsTable lists={data.lists} />
+            <AllCardsTable lists={data?.lists} />
           </div>
         </div>
       </div>
