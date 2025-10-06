@@ -14,11 +14,16 @@ export async function POST(
     const userId = protectRoute(req);
 
     const { id: listId } = await params;
-    const { name } = await req.json();
+    const newItems = await req.json();
 
-    if (!name) {
+    console.log("newItems", newItems);
+
+    if (!Array.isArray(newItems) || newItems.length === 0) {
       return NextResponse.json(
-        { success: false, message: "Item name is required" },
+        {
+          success: false,
+          message: "Request body must be a non-empty array of items.",
+        },
         { status: 400 }
       );
     }
@@ -38,7 +43,7 @@ export async function POST(
       );
     }
 
-    list.items.push({ name });
+    list.items.push(...newItems);
     await list.save();
 
     return NextResponse.json(
