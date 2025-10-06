@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Plus, ChevronDown } from "lucide-react";
+import { X, Plus, ChevronDown, Check } from "lucide-react"; // Import Check icon
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -46,7 +46,6 @@ export function CreatableSelect({
   const [options, setOptions] = useState<Option[]>(initialOptions);
   const [input, setInput] = useState("");
 
-  // ✅ DERIVE state directly from props instead of using useState
   const selectedSingle =
     !multiple && typeof value === "string"
       ? options.find((o) => o.value === value)
@@ -60,14 +59,14 @@ export function CreatableSelect({
     if (!onChange) return;
 
     if (multiple) {
-      const currentValues = selectedMulti.map((s) => s.value);
-      const newValueObjects = currentValues.includes(option.value)
-        ? selectedMulti.filter((s) => s.value !== option.value)
-        : [...selectedMulti, option];
+      const currentValues = Array.isArray(value) ? value : [];
+      const isSelected = currentValues.includes(option.value);
 
-      onChange(newValueObjects.map((s) => s.value));
+      const newValue = isSelected
+        ? currentValues.filter((v) => v !== option.value)
+        : [...currentValues, option.value];
+      onChange(newValue);
     } else {
-      // Call onChange with the single new value
       onChange(option.value);
       setOpen(false);
     }
@@ -75,37 +74,39 @@ export function CreatableSelect({
 
   const handleCreate = () => {
     if (!input || !onChange) return;
-    const newOption = { label: input, value: input.toLowerCase() };
-    setOptions([...options, newOption]);
+    const newOption = { label: input, value: input.toLowerCase().trim() };
+    setOptions((prev) => [...prev, newOption]);
 
     if (multiple) {
-      onChange([...selectedMulti.map((s) => s.value), newOption.value]);
+      const currentValues = Array.isArray(value) ? value : [];
+      onChange([...currentValues, newOption.value]);
     } else {
       onChange(newOption.value);
     }
-
     setInput("");
     setOpen(false);
   };
 
+  // FIX 2: Logic for remove button was subtly flawed. This is the robust way.
   const handleRemove = (optionValue: string) => {
-    if (!onChange || !multiple) return;
-    const currentValues = selectedMulti.map((s) => s.value);
-    onChange(currentValues.filter((v) => v !== optionValue));
+    if (!onChange || !multiple || !Array.isArray(value)) return;
+    onChange(value.filter((v) => v !== optionValue));
   };
+
   return (
     <Field className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
+          {/* FIX 3: Added h-auto and min-h-10 to allow the button to grow in height */}
           <Button
             variant="outline"
             role="combobox"
-            className="w-full justify-between font-normal"
+            className="w-full justify-between font-normal h-auto min-h-10"
           >
-            {multiple ? (
-              selectedMulti.length > 0 ? (
-                <div className="flex flex-wrap gap-1">
-                  {selectedMulti.map((s) => (
+            <div className="flex flex-wrap gap-1 items-center">
+              {multiple ? (
+                selectedMulti.length > 0 ? (
+                  selectedMulti.map((s) => (
                     <Badge
                       key={s.value}
                       className="flex items-center gap-1"
@@ -120,32 +121,33 @@ export function CreatableSelect({
                         }}
                       />
                     </Badge>
-                  ))}
-                </div>
+                  ))
+                ) : (
+                  <span className="text-muted-foreground">{placeholder}</span>
+                )
+              ) : selectedSingle ? (
+                selectedSingle.label
               ) : (
-                placeholder
-              )
-            ) : selectedSingle ? (
-              selectedSingle.label
-            ) : (
-              placeholder
-            )}
+                <span className="text-muted-foreground">{placeholder}</span>
+              )}
+            </div>
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-[320px] p-0">
-          <Command shouldFilter={false}>
+        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+          {/* FIX 1: Removed shouldFilter={false} to enable default search functionality */}
+          <Command>
             <CommandInput
               placeholder="Search or type..."
               value={input}
               onValueChange={setInput}
-              className="outline-none font-normal"
             />
             <CommandList>
               {input.length > 0 &&
                 !options.some(
-                  (option) => option.label.toLowerCase() === input.toLowerCase()
+                  (opt) =>
+                    opt.label.toLowerCase() === input.toLowerCase().trim()
                 ) && (
                   <CommandItem
                     onSelect={handleCreate}
@@ -156,29 +158,25 @@ export function CreatableSelect({
                   </CommandItem>
                 )}
               <CommandGroup>
-                {options
-                  .filter(
-                    (option) =>
-                      !selectedMulti.some((s) => s.value === option.value)
-                  )
-                  .map((option) => (
+                {options.map((option) => {
+                  const isSelected = multiple
+                    ? Array.isArray(value) && value.includes(option.value)
+                    : value === option.value;
+                  return (
                     <CommandItem
                       key={option.value}
                       onSelect={() => handleSelect(option)}
                     >
-                      {multiple && (
-                        <span
-                          className={cn(
-                            "mr-2 inline-block h-3 w-3 rounded-sm border",
-                            selectedMulti.some((s) => s.value === option.value)
-                              ? "bg-primary"
-                              : "bg-transparent"
-                          )}
-                        />
-                      )}
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          isSelected ? "opacity-100" : "opacity-0"
+                        )}
+                      />
                       {option.label}
                     </CommandItem>
-                  ))}
+                  );
+                })}
               </CommandGroup>
             </CommandList>
           </Command>
