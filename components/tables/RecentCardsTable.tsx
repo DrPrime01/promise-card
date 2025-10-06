@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, FileX2 } from "lucide-react";
 import CustomTable from ".";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import ShareLinkInitiator from "../user/ShareLinkInitiator";
 import { Badge } from "../ui/badge";
+import EmptyUI from "../empty";
+import CreateNewCardInitiator from "../user/CreateNewCardInitiator";
 
 export default function RecentCardsTable({
   lists,
@@ -56,7 +58,16 @@ export default function RecentCardsTable({
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0">
-        <CustomTable tableHead={tableHead} tableBody={tableBody} />
+        {tableBody.length > 0 ? (
+          <CustomTable tableHead={tableHead} tableBody={tableBody} />
+        ) : (
+          <EmptyUI
+            title="No cards created yet"
+            desc="You have not created any card. Create one to begin to get promises"
+            icon={<FileX2 />}
+            actions={<CreateNewCardInitiator />}
+          />
+        )}
       </CardContent>
     </Card>
   );

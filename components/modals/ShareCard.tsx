@@ -21,7 +21,7 @@ export default function ShareCard({
   linkId: string;
 }) {
   const linkRef = useRef<HTMLDivElement>(null);
-  const shareURL = `https://promisecard.com/sh/${linkId}`;
+  const shareURL = `${process.env.NEXT_PUBLIC_APP_URL!}/sh/${linkId}`;
 
   const handleCopy = () => {
     if (linkRef?.current) {
