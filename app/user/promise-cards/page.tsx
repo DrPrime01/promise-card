@@ -10,12 +10,12 @@ export default async function page() {
   return (
     <UserDashboardLayout>
       <div className="flex flex-col h-full">
-        <div className="bg-white flex flex-row justify-between items-center w-full border-b border-[#E4E7EC] py-5 px-10">
+        <div className="bg-white flex flex-row justify-between items-center w-full border-b border-[#E4E7EC] py-5 px-5 md:px-10">
           <div>
-            <h3 className="font-bold font-aeonik-bold tracking-[-2%] text-black text-xl leading-[120%] mb-1">
+            <h3 className="font-bold font-aeonik-bold tracking-[-2%] text-black text-base md:text-xl leading-[120%] mb-1">
               Your Promise Cards
             </h3>
-            <p className="text-[#475367] text-base leading-[150%]">
+            <p className="text-[#475367] text-xs md:text-base leading-[150%]">
               Here’s a quick overview of your cards.
             </p>
           </div>

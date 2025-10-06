@@ -19,21 +19,21 @@ export default async function page({
   return (
     <UserDashboardLayout>
       <div className="flex flex-col h-full">
-        <div className="bg-white flex flex-row justify-between items-center w-full border-b border-[#E4E7EC] py-5 px-10">
+        <div className="bg-white flex flex-row justify-between items-center w-full border-b border-[#E4E7EC] py-5 px-5 md:px-10">
           <div className="flex gap-x-3 items-start">
             <BackBtn />
             <div>
-              <h3 className="font-bold font-aeonik-bold tracking-[-2%] text-black text-xl leading-[120%] mb-1">
+              <h3 className="font-bold font-aeonik-bold tracking-[-2%] text-black text-base md:text-xl leading-[120%] mb-1">
                 {list?.title} Promise Card
               </h3>
-              <p className="text-[#475367] text-base leading-[150%]">
+              <p className="text-[#475367] text-xs md:text-base leading-[150%]">
                 Here’s your promise card.
               </p>
             </div>
           </div>
           {items.length > 0 && <AddItemsInitiator itemID={id} />}
         </div>
-        <div className="flex-1 px-9 overflow-y-auto min-h-0 py-5 space-y-5">
+        <div className="flex-1 px-5 md:px-9 overflow-y-auto min-h-0 py-5 space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <StatsCard value={items?.length} label="Items" />
             <StatsCard value="80" label="Promises Fulfilled" />

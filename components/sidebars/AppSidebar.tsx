@@ -33,7 +33,7 @@ export function AppSidebar({
 }: AppSidebarProps) {
   return (
     <Sidebar
-      collapsible="none"
+      // collapsible="none"
       {...props}
       className="bg-white h-screen border-[#E4E7EC] border-r pt-3 pb-11"
     >
