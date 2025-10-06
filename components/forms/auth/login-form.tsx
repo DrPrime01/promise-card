@@ -63,7 +63,7 @@ export function LoginForm({
       setIsLoading(false);
       toast.success(data.message);
       form.reset();
-      router.replace("/");
+      router.replace("/user");
     } catch (error) {
       handleError(error);
       setIsLoading(false);
