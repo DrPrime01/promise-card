@@ -13,7 +13,8 @@ export async function middleware(req: NextRequest) {
     pathname === "/favicon.ico" ||
     pathname.startsWith("/images") ||
     pathname.startsWith("/icons") ||
-    pathname === "/"
+    pathname === "/" ||
+    pathname.startsWith("/card")
   ) {
     return NextResponse.next();
   }
