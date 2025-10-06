@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { List } from "@/models/listSchema";
 import { protectRoute } from "@/lib/auth-helpers";
-import { handleAuthError } from "@/lib/error";
+import { handleApiError } from "@/lib/error";
 import { connectToDb } from "@/db";
 
 export async function POST(
@@ -51,6 +51,12 @@ export async function POST(
       { status: 200 }
     );
   } catch (error) {
-    return handleAuthError(error);
+    return handleApiError(error);
   }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    await connectToDb();
+  } catch (error) {}
 }

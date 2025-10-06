@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Files } from "lucide-react";
 import { SiTelegram, SiGmail } from "react-icons/si";
 import { FaXTwitter, FaWhatsapp } from "react-icons/fa6";
+import { handleShare } from "@/lib/utils";
 
 export default function ShareCard({
   open,
@@ -20,6 +21,7 @@ export default function ShareCard({
   linkId: string;
 }) {
   const linkRef = useRef<HTMLDivElement>(null);
+  const shareURL = `https://promisecard.com/sh/${linkId}`;
 
   const handleCopy = () => {
     if (linkRef?.current) {
@@ -54,7 +56,7 @@ export default function ShareCard({
               ref={linkRef}
               className="flex-1 font-medium text-base leading-[24px] tracking-[-0.1px] text-gray-7900 rounded-sm border border-[#E5E7EB] p-2.5 max-w-[297px] truncate"
             >
-              {`https://promisecard.com/sh/${linkId}`}
+              {shareURL}
             </div>
             <button
               onClick={handleCopy}
@@ -74,16 +76,32 @@ export default function ShareCard({
           </div>
 
           <div className="flex justify-center gap-5">
-            <button className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer">
+            <button
+              type="button"
+              onClick={() => handleShare("twitter", shareURL)}
+              className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer"
+            >
               <FaXTwitter />
             </button>
-            <button className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer">
+            <button
+              type="button"
+              onClick={() => handleShare("telegram", shareURL)}
+              className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer"
+            >
               <SiTelegram />
             </button>
-            <button className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer">
+            <button
+              type="button"
+              onClick={() => handleShare("gmail", shareURL)}
+              className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer"
+            >
               <SiGmail />
             </button>
-            <button className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer">
+            <button
+              type="button"
+              onClick={() => handleShare("whatsapp", shareURL)}
+              className="size-11 rounded-full border border-[#E6E6E8] flex items-center justify-center cursor-pointer"
+            >
               <FaWhatsapp />
             </button>
           </div>

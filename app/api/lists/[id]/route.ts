@@ -1,6 +1,8 @@
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDb } from "@/db";
 import { List } from "@/models/listSchema";
-import { NextRequest, NextResponse } from "next/server";
+import { protectRoute } from "@/lib/auth-helpers";
+import { handleApiError } from "@/lib/error";
 
 export async function GET(
   req: NextRequest,
@@ -8,39 +10,27 @@ export async function GET(
 ) {
   try {
     await connectToDb();
+    const userId = protectRoute(req);
 
-    const { id } = await params;
-    const list = await List.findOne({ shareableId: id });
+    const { id: listId } = await params;
+    const list = await List.findOne({ _id: listId, owner: userId });
+
     if (!list) {
       return NextResponse.json(
-        { success: false, message: "This list does not exist" },
+        { success: false, message: "List not found" },
         { status: 404 }
       );
     }
-
-    if (!list.active) {
-      return NextResponse.json(
-        { success: false, message: "This list is currently inactive" },
-        { status: 400 }
-      );
-    }
-
-    const listObject = list.toObject();
-    delete listObject.owner;
 
     return NextResponse.json(
       {
         success: true,
         message: "List retrieved successfully",
-        list: listObject,
+        list,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { success: false, message: "An internal server error occurred" },
-      { status: 500 }
-    );
+    return handleApiError(error);
   }
 }

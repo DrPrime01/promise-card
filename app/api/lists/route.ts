@@ -1,6 +1,6 @@
 import { connectToDb } from "@/db";
 import { protectRoute } from "@/lib/auth-helpers";
-import { handleAuthError } from "@/lib/error";
+import { handleApiError } from "@/lib/error";
 import { List } from "@/models/listSchema";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -25,6 +25,6 @@ export async function GET(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    return handleAuthError(error);
+    return handleApiError(error);
   }
 }

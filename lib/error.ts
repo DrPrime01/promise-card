@@ -15,7 +15,7 @@ export const handleError = (err: unknown) => {
   }
 };
 
-export function handleAuthError(error: unknown) {
+export function handleApiError(error: unknown) {
   if (error instanceof Error) {
     // Handle specific errors we throw from our helpers
     if (error.message.startsWith("401 Unauthorized")) {

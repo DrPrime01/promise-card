@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { connectToDb } from "@/db";
 import { User } from "@/models/userSchema";
 import { createAuthResponse } from "@/lib/auth-helpers";
-import { handleAuthError } from "@/lib/error";
+import { handleApiError } from "@/lib/error";
 
 export async function POST(req: Request) {
   const { email, password } = (await req.json()) as LoginUserType;
@@ -21,6 +21,6 @@ export async function POST(req: Request) {
 
     return createAuthResponse(user, "Login successful");
   } catch (error) {
-    return handleAuthError(error);
+    return handleApiError(error);
   }
 }
