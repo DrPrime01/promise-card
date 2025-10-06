@@ -3,22 +3,39 @@ import { ChevronRight } from "lucide-react";
 import CustomTable from ".";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import ShareLinkInitiator from "../user/ShareLinkInitiator";
+import { Badge } from "../ui/badge";
 
 export default function RecentCardsTable({
   lists,
   linkToCards = "/user/promise-cards",
 }: {
-  lists: { title: string; occasion: string; _id: string }[];
+  lists: {
+    title: string;
+    occasion: string;
+    _id: string;
+    active: boolean;
+    shareableId: string;
+  }[];
   linkToCards?: string;
 }) {
   const tableBody = lists?.map((list, index) => ({
     title: list.title,
     occasion: list.occasion,
-    link: "",
-    status: "",
+    link: <ShareLinkInitiator linkId={list.shareableId} />,
+    status: list.active ? (
+      <Badge className="bg-blue-500 text-white dark:bg-blue-600">
+        <span className="bg-green-400 size-2 inline-block rounded-full" />
+        Active
+      </Badge>
+    ) : (
+      <Badge variant="secondary" className="bg-gray-300">
+        Inactive
+      </Badge>
+    ),
     action: (
       <Button variant="outline" asChild>
-        <Link href={`/list/${list._id}`}>View List</Link>
+        <Link href={`/user/promise-cards/${list._id}`}>View List</Link>
       </Button>
     ),
     id: index + 1,
