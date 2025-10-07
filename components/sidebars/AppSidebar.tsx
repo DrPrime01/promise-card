@@ -17,6 +17,7 @@ import {
 import { Avatar, AvatarImage } from "../ui/avatar";
 
 import { LogOut, SettingsIcon } from "lucide-react";
+import { useUserStore } from "@/store/user-store";
 
 interface AppSidebarProps {
   menu: MenuProps[];
@@ -31,6 +32,8 @@ export function AppSidebar({
   homeLink,
   ...props
 }: AppSidebarProps) {
+  const user = useUserStore((state) => state.getUser());
+
   return (
     <Sidebar
       // collapsible="none"
@@ -90,11 +93,11 @@ export function AppSidebar({
                       <AvatarImage src="https://github.com/shadcn.png" />
                     </Avatar>
                     <div className="flex flex-col">
-                      <p className="text-grey-900 text-sm font-semibold leading-[145%]">
-                        Sheye David
+                      <p className="text-grey-900 text-sm font-semibold leading-[145%] capitalize">
+                        {user?.username}
                       </p>
-                      <p className="text-grey-600 text-sm leading-[145%]">
-                        sheye@gmail.com
+                      <p className="text-grey-600 text-sm leading-[145%] max-w-20 truncate">
+                        {user?.email}
                       </p>
                     </div>
                   </div>

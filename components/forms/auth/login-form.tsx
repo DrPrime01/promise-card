@@ -23,6 +23,7 @@ import MetaIcon from "@/components/vectors/meta-icon";
 import Link from "next/link";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
+import { useUserStore } from "@/store/user-store";
 // import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const formSchema = z.object({
@@ -48,6 +49,8 @@ export function LoginForm({
     },
   });
 
+  const setUser = useUserStore((state) => state.setUser);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
@@ -57,6 +60,7 @@ export function LoginForm({
       });
       const data = await res.json();
       setIsLoading(false);
+      setUser(data?.user);
       toast.success(data.message);
       form.reset();
       router.replace("/user");

@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { handleError } from "@/lib/error";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
+import { useUserStore } from "@/store/user-store";
 // import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const formSchema = z
@@ -67,6 +68,8 @@ export function SignupForm({
     },
   });
 
+  const setUser = useUserStore((state) => state.setUser);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
@@ -76,11 +79,11 @@ export function SignupForm({
       });
       const data = await res.json();
       setIsLoading(false);
+      setUser(data?.user);
       toast.success(data.message);
       form.reset();
       router.replace("/user");
     } catch (error) {
-      console.log(error);
       handleError(error);
       setIsLoading(false);
     }
