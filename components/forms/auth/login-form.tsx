@@ -23,19 +23,17 @@ import MetaIcon from "@/components/vectors/meta-icon";
 import Link from "next/link";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
+import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const formSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
   password: z
     .string()
     .min(8, { message: "Minimum password length is 8" })
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/,
-      {
-        message:
-          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
-      }
-    ),
+    .regex(PASSWORD_REGEX_STRING, {
+      message:
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+    }),
 });
 
 export function LoginForm({

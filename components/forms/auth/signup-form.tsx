@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { handleError } from "@/lib/error";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
+import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const formSchema = z
   .object({
@@ -39,13 +40,10 @@ const formSchema = z
     password: z
       .string()
       .min(8, { message: "Minimum password length is 8" })
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/,
-        {
-          message:
-            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
-        }
-      ),
+      .regex(PASSWORD_REGEX_STRING, {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      }),
     confirmPassword: z
       .string()
       .min(8, { message: "Minimum password length is 8" }),
@@ -84,6 +82,7 @@ export function SignupForm({
       form.reset();
       router.replace("/user");
     } catch (error) {
+      console.log(error);
       handleError(error);
       setIsLoading(false);
     }

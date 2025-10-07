@@ -47,3 +47,6 @@ export const DEFAULT_GIFT_OPTIONS = [
 ];
 
 export const API_URL = `${process.env.NEXT_PUBLIC_APP_URL!}/api`;
+
+export const PASSWORD_REGEX_STRING =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_#^&()])[A-Za-z\d@$!%*?&_#^&()]{8,}$/;

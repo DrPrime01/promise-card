@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import validator from "validator";
+import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const { Schema } = mongoose;
 
@@ -30,9 +31,7 @@ const UserSchema = new Schema(
       select: false,
       validate: {
         validator: function (value: string) {
-          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-            value
-          );
+          return PASSWORD_REGEX_STRING.test(value);
         },
         message:
           "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long.",
