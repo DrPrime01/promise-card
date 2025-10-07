@@ -49,7 +49,12 @@ export function NewCardForm({
       });
       const data = await res.json();
       setIsLoading(false);
-      toast.success(data.message);
+      toast.success(data.message, {
+        action: {
+          label: "Add Items to Card",
+          onClick: () => router.push(`/user/promise-cards/${data?.list?._id}`),
+        },
+      });
       form.reset();
       router.refresh();
       close();
