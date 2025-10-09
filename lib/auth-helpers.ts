@@ -40,12 +40,14 @@ export function protectRoute(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
+    console.log("token error");
     throw new Error("401 Unauthorized: Token missing");
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
   if (typeof decoded === "string" || !decoded.id) {
+    console.log("401 Unauthorized: Invalid token payload");
     throw new Error("401 Unauthorized: Invalid token payload");
   }
 
