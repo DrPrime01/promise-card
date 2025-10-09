@@ -93,10 +93,16 @@ export function AppSidebar({
                       <AvatarImage src="https://github.com/shadcn.png" />
                     </Avatar>
                     <div className="flex flex-col">
-                      <p className="text-grey-900 text-sm font-semibold leading-[145%] capitalize">
+                      <p
+                        suppressHydrationWarning
+                        className="text-grey-900 text-sm font-semibold leading-[145%] capitalize"
+                      >
                         {user?.username}
                       </p>
-                      <p className="text-grey-600 text-sm leading-[145%] max-w-20 truncate">
+                      <p
+                        suppressHydrationWarning
+                        className="text-grey-600 text-sm leading-[145%] max-w-20 truncate"
+                      >
                         {user?.email}
                       </p>
                     </div>
