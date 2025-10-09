@@ -37,11 +37,13 @@ export function createAuthResponse(
 }
 
 export function protectRoute(req: NextRequest) {
+  console.log("req", req);
   const token = req.cookies.get("token")?.value;
+  console.log("token", token);
 
   if (!token) {
     console.log("token error");
-    throw new Error("401 Unauthorized: Token missing");
+    throw new Error("401 Unauthorized: Token missing", {});
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET!);

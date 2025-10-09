@@ -23,6 +23,8 @@ export async function authenticatedFetch(
     cache: "no-store", // Keep this for dynamic data
   });
 
+  console.log(res);
+
   if (!res.ok) {
     console.log(res);
     throw new Error(`API call failed with status: ${res.status}`);
