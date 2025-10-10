@@ -24,6 +24,7 @@ import Link from "next/link";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import { useUserStore } from "@/store/user-store";
+import { login } from "@/actions/auth.actions";
 // import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const formSchema = z.object({
@@ -54,16 +55,17 @@ export function LoginForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/login`, {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
-      const data = await res.json();
+      const res = await login(values);
+      if (res?.success) {
+        setUser(res?.user);
+        toast.success(res?.message);
+        form.reset();
+        router.replace("/user");
+      } else {
+        toast.error(res?.message);
+      }
+
       setIsLoading(false);
-      setUser(data?.user);
-      toast.success(data.message);
-      form.reset();
-      router.replace("/user");
     } catch (error) {
       handleError(error);
       setIsLoading(false);

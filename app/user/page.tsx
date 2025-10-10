@@ -1,8 +1,8 @@
-import { getUserLists } from "@/actions/user/list";
 import UserDashboardLayout from "@/components/layouts/DashboardLayout/UserDashboardLayout";
 import RecentCardsTable from "@/components/tables/RecentCardsTable";
 import CreateNewCardInitiator from "@/components/user/CreateNewCardInitiator";
 import StatsCard from "@/components/user/StatsCard";
+import { getUserLists } from "@/service/lists.service";
 
 export default async function page() {
   const data = await getUserLists();

@@ -12,8 +12,6 @@ export async function authenticatedFetch(
     .map((c) => `${c.name}=${c.value}`)
     .join("; ");
 
-  console.log(cookieHeader);
-
   const res = await fetch(`${API_URL}${path}`, {
     ...options,
     headers: {
@@ -23,10 +21,7 @@ export async function authenticatedFetch(
     cache: "no-store", // Keep this for dynamic data
   });
 
-  console.log(res);
-
   if (!res.ok) {
-    console.log(res);
     throw new Error(`API call failed with status: ${res.status}`);
   }
 

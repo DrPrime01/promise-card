@@ -10,6 +10,7 @@ import { handleError } from "@/lib/error";
 import { toast } from "sonner";
 import BaseInput from "@/components/form-fields/base/input-field";
 import { Spinner } from "@/components/ui/spinner";
+import { markItemAsPromised } from "@/actions/card.actions";
 
 type Item = {
   _id: string;
@@ -40,14 +41,17 @@ export default function PromiseItemRow({
     try {
       const payload = { isPromised: isChecked, promisedBy: giverName };
 
-      const res = await fetch(`/api/lists/${shareableId}/items/${item?._id}`, {
-        method: "PATCH",
-        body: JSON.stringify(payload),
+      const res = await markItemAsPromised({
+        ...payload,
+        shareableId,
+        itemId: item?._id,
       });
-      const data = await res.json();
+
+      if (res?.success) {
+        toast.success(res?.message);
+        router.refresh();
+      }
       setIsLoading(false);
-      toast.success(data.message);
-      router.refresh();
       setGiverName("");
     } catch (error) {
       handleError(error);

@@ -14,6 +14,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import ValidatedCreatableSelect from "@/components/form-fields/validated/validated-creatable-select";
 import { DEFAULT_GIFT_OPTIONS } from "@/constants";
+import { addItems } from "@/actions/user.actions";
 
 const formSchema = z.object({
   items: z.array(
@@ -42,16 +43,17 @@ export function AddItemsForm({
     setIsLoading(true);
     try {
       const items = values?.items?.map((item) => ({ name: item }));
-      const res = await fetch(`/api/lists/${itemID}/items`, {
-        method: "POST",
-        body: JSON.stringify(items),
-      });
-      const data = await res.json();
+      const res = await addItems({ items, id: itemID });
+      if (res?.success) {
+        toast.success(res?.message);
+        form.reset();
+        router.refresh();
+        close();
+      } else {
+        toast.error(res?.message);
+      }
+
       setIsLoading(false);
-      toast.success(data.message);
-      form.reset();
-      router.refresh();
-      close();
     } catch (error) {
       handleError(error);
       setIsLoading(false);

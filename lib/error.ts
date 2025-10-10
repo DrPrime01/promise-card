@@ -16,10 +16,9 @@ export const handleError = (err: unknown) => {
 };
 
 export function handleApiError(error: unknown) {
-  console.log(error, "error.ts");
   if (error instanceof Error) {
     // Handle specific errors we throw from our helpers
-    if (error.message.startsWith("401 Unauthorized")) {
+    if (error.message.includes("401 Unauthorized")) {
       return NextResponse.json(
         { success: false, message: error.message },
         { status: 401 }
@@ -50,9 +49,49 @@ export function handleApiError(error: unknown) {
     );
   }
 
-  console.error(error);
   return NextResponse.json(
     { success: false, message: "An internal server error occurred" },
     { status: 500 }
   );
 }
+
+export function handleActionAuthError(error: unknown) {
+  if (error instanceof Error) {
+    if (error.message.includes("E11000 duplicate key error")) {
+      return {
+        success: false,
+        status: 400,
+        message: "A user with this email or username already exists.",
+      };
+    }
+    return {
+      success: false,
+      status: 500,
+      message: error?.message,
+    };
+  }
+
+  return {
+    success: false,
+    status: 500,
+    message: "An unexpected error occured.",
+  };
+}
+
+export function handleActionError(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      success: false,
+      status: 500,
+      message: error?.message,
+    };
+  }
+
+  return {
+    success: false,
+    status: 500,
+    message: "An unexpected error occured.",
+  };
+}
+
+export const handleServiceError = handleActionError;

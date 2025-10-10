@@ -42,9 +42,9 @@ export function OwnerItemsTable({ items }: OwnerItemsTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((item) => (
-            <TableRow key={item._id}>
-              <TableCell className="font-medium px-4">{item.name}</TableCell>
+          {items?.map((item) => (
+            <TableRow key={item?._id}>
+              <TableCell className="font-medium px-4">{item?.name}</TableCell>
               <TableCell>
                 {item.isPromised ? (
                   <Badge variant="success">Promised</Badge>
@@ -53,13 +53,13 @@ export function OwnerItemsTable({ items }: OwnerItemsTableProps) {
                 )}
               </TableCell>
               <TableCell className="text-muted-foreground px-4">
-                {item.promisedBy || "---"}
+                {item?.promisedBy || "---"}
               </TableCell>
               <TableCell className="text-right">
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => handleDelete(item._id, item.name)}
+                  onClick={() => handleDelete(item?._id, item?.name)}
                 >
                   <Trash2 className="h-4 w-4 text-red-500" />
                 </Button>

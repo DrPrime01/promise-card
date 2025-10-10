@@ -58,7 +58,7 @@ export default function RecentCardsTable({
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0">
-        {tableBody.length > 0 ? (
+        {tableBody?.length > 0 ? (
           <CustomTable tableHead={tableHead} tableBody={tableBody} />
         ) : (
           <EmptyUI

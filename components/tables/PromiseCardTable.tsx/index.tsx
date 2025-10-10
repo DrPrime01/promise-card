@@ -35,7 +35,7 @@ export function PromiseCardTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <PromiseItemRow
             key={item._id}
             item={item}

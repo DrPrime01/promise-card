@@ -26,6 +26,23 @@ declare global {
     confirmPassword: string;
   } & LoginUserType;
 
+  type CreateListType = {
+    title: string;
+    occasion: string;
+  };
+
+  type AddItemsType = {
+    items: { name: string }[];
+    id: string;
+  };
+
+  type MarkItemAsPromisedType = {
+    shareableId: string;
+    itemId: string;
+    isPromised: boolean;
+    promisedBy: string;
+  };
+
   type UserType = {
     _id: string;
     username: string;

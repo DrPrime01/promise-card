@@ -16,8 +16,6 @@ export async function POST(
     const { id: listId } = await params;
     const newItems = await req.json();
 
-    console.log("newItems", newItems);
-
     if (!Array.isArray(newItems) || newItems.length === 0) {
       return NextResponse.json(
         {

@@ -15,6 +15,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import ValidatedCreatableSelect from "@/components/form-fields/validated/validated-creatable-select";
 import { DEFAULT_OCCASSION_OPTIONS } from "@/constants";
+import { createList } from "@/actions/user.actions";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -43,21 +44,23 @@ export function NewCardForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/list`, {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
-      const data = await res.json();
+      const res = await createList(values);
+
+      if (res?.success) {
+        toast.success(res?.message, {
+          action: {
+            label: "Add Items to Card",
+            onClick: () => router.push(`/user/promise-cards/${res?.list?._id}`),
+          },
+        });
+        form.reset();
+        router.refresh();
+        close();
+      } else {
+        toast.error(res?.message);
+      }
+
       setIsLoading(false);
-      toast.success(data.message, {
-        action: {
-          label: "Add Items to Card",
-          onClick: () => router.push(`/user/promise-cards/${data?.list?._id}`),
-        },
-      });
-      form.reset();
-      router.refresh();
-      close();
     } catch (error) {
       handleError(error);
       setIsLoading(false);

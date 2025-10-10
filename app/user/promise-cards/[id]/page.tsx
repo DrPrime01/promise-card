@@ -1,10 +1,11 @@
-import { getUserList } from "@/actions/user/list";
 import BackBtn from "@/components/buttons/back-btn";
 import EmptyCard from "@/components/cards/empty-card";
+import EmptyUI from "@/components/empty";
 import UserDashboardLayout from "@/components/layouts/DashboardLayout/UserDashboardLayout";
 import { OwnerItemsTable } from "@/components/tables/OwnerItemsTable";
 import AddItemsInitiator from "@/components/user/AddItemsInitiator";
 import StatsCard from "@/components/user/StatsCard";
+import { getUserList } from "@/service/lists.service";
 import { FileX2 } from "lucide-react";
 
 export default async function page({
@@ -13,7 +14,13 @@ export default async function page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { list } = await getUserList(id);
+  const res = await getUserList(id);
+
+  if (!res?.success) {
+    return <EmptyUI title="404" desc={res?.message || "List not found."} />;
+  }
+
+  const { list } = res;
   const items = list?.items;
 
   return (
