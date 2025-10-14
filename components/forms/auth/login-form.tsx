@@ -17,9 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import ValidatedInput from "@/components/form-fields/validated/validated-input";
-import AppleIcon from "@/components/vectors/apple-icon";
 import GoogleIcon from "@/components/vectors/google-icon";
-import MetaIcon from "@/components/vectors/meta-icon";
 import Link from "next/link";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
@@ -114,18 +112,13 @@ export function LoginForm({
                 <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                   Or continue with
                 </FieldSeparator>
-                <Field className="grid grid-cols-3 gap-4">
-                  <Button variant="outline" type="button">
-                    <AppleIcon />
-                    <span className="sr-only">Login with Apple</span>
-                  </Button>
+                <Field className="grid grid-cols-2 gap-4">
                   <Button variant="outline" type="button">
                     <GoogleIcon />
                     <span className="sr-only">Login with Google</span>
                   </Button>
                   <Button variant="outline" type="button">
-                    <MetaIcon />
-                    <span className="sr-only">Login with Meta</span>
+                    Guest login
                   </Button>
                 </Field>
                 <FieldDescription className="text-center">

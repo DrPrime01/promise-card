@@ -15,9 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import AppleIcon from "@/components/vectors/apple-icon";
 import GoogleIcon from "@/components/vectors/google-icon";
-import MetaIcon from "@/components/vectors/meta-icon";
 import ValidatedInput from "@/components/form-fields/validated/validated-input";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -149,18 +147,13 @@ export function SignupForm({
                 <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                   Or continue with
                 </FieldSeparator>
-                <Field className="grid grid-cols-3 gap-4">
-                  <Button variant="outline" type="button">
-                    <AppleIcon />
-                    <span className="sr-only">Sign up with Apple</span>
-                  </Button>
+                <Field className="grid grid-cols-2 gap-4">
                   <Button variant="outline" type="button">
                     <GoogleIcon />
                     <span className="sr-only">Sign up with Google</span>
                   </Button>
                   <Button variant="outline" type="button">
-                    <MetaIcon />
-                    <span className="sr-only">Sign up with Meta</span>
+                    Guest sign up
                   </Button>
                 </Field>
                 <FieldDescription className="text-center">
