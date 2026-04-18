@@ -22,7 +22,7 @@ declare global {
   };
 
   type CreateUserType = {
-    username: string;
+    // username: string;
     confirmPassword: string;
   } & LoginUserType;
 
@@ -76,7 +76,7 @@ declare global {
   } & Omit<InputProps, "name">;
 
   type ValidatedCreatableSelectProps<
-    TFieldValues extends FieldValues = FieldValues
+    TFieldValues extends FieldValues = FieldValues,
   > = {
     control: Control<TFieldValues>;
     name: Path<TFieldValues>;

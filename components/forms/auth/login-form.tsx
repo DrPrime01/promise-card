@@ -23,6 +23,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import { useUserStore } from "@/store/user-store";
 import { login } from "@/actions/auth.actions";
+import SendMessage from "@/components/vectors/send-message";
 // import { PASSWORD_REGEX_STRING } from "@/constants";
 
 const formSchema = z.object({
@@ -73,19 +74,44 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
+          <div className="relative">
+            <div className="bg-secondary/80 backdrop-blur-sm hidden relative md:flex size-full z-10 flex-col gap-y-[60px] items-center justify-center">
+              <div className="rounded-full w-[9rem] h-[8.25rem] bg-white grid place-items-center">
+                <SendMessage />
+              </div>
+              <div className="flex flex-col text-center gap-y-4">
+                <span className="text-accent-red text-4xl leading-10 font-playfair-display italic">
+                  Welcome back to The Keepsake
+                </span>
+                <p className="font-noto-serif text-xs text-brown italic">
+                  &quot;A digital heirloom is a promise kepts across time and
+                  space.&quot;
+                </p>
+              </div>
+            </div>
+            <div className="absolute -right-12 -top-12 bg-[#a62626]/20 rounded-full size-[12rem] z-0"></div>
+            <div className="absolute -bottom-12 -left-12 bg-[#cca830]/20 rounded-full size-[12rem] z-0"></div>
+          </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="p-6 md:p-8 z-10 bg-white"
+            >
               <FieldGroup>
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <h1 className="text-2xl font-bold">Welcome back</h1>
-                  <p className="text-muted-foreground text-balance">
-                    Login to your Promise Card account
-                  </p>
+                <div className="flex flex-col gap-y-4">
+                  <span className="text-2xl leading-8 text-accent-red font-playfair-display italic">
+                    Promisecard
+                  </span>
+                  <h1 className="text-dark text-5xl leading-[3rem] font-playfair-display">
+                    Continue
+                    <br />
+                    your Narrative.
+                  </h1>
                 </div>
                 <Field>
                   <ValidatedInput
                     name="email"
-                    label="Email"
+                    label="Email Address"
                     placeholder="user@email.xyz"
                     control={form.control}
                   />
@@ -95,19 +121,20 @@ export function LoginForm({
                     control={form.control}
                     type="password"
                     name="password"
-                    label="Password"
+                    label="Secret Key"
                     placeholder="••••••••••"
                   />
                 </Field>
                 <Field>
-                  <Button
+                  <button
                     type="submit"
                     disabled={isLoading}
-                    className="disabled:opacity-50 "
+                    className="disabled:opacity-50 cursor-pointer hover:bg-accent-red bg-accent-red px-7 py-4 rounded-[6px] border border-dashed border-white/20 outline-4 outline-accent-red text-xl leading-7 font-playfair-display flex items-center gap-x-2 justify-center w-full text-white"
                   >
-                    <span>Login</span>
+                    <span>Open My Vault</span>
+
                     {isLoading && <Spinner />}
-                  </Button>
+                  </button>
                 </Field>
                 <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                   Or continue with
@@ -128,14 +155,6 @@ export function LoginForm({
               </FieldGroup>
             </form>
           </Form>
-          <div className="bg-muted relative hidden md:block">
-            <Image
-              src="https://images.unsplash.com/photo-1593526613712-7b4b9a707330?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvbWlzZXxlbnwwfHwwfHx8MA%3D%3D"
-              fill
-              alt="promise-login"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
-          </div>
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
